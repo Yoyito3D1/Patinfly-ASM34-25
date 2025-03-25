@@ -1,0 +1,16 @@
+[
+  {
+    "id": "b1",
+    "brand": "Orbea",
+    "model": "MX40",
+    "type": "mountain",
+    "is_available": true
+  },
+  {
+    "id": "b2",
+    "brand": "Trek",
+    "model": "FX 3 Disc",
+    "type": "hybrid",
+    "is_available": false
+  }
+]

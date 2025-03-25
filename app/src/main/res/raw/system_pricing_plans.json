@@ -1,0 +1,12 @@
+[
+  {
+    "id": "plan1",
+    "name": "Basic",
+    "price_per_hour": 2.5
+  },
+  {
+    "id": "plan2",
+    "name": "Premium",
+    "price_per_hour": 1.75
+  }
+]
