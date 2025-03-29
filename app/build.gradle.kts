@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "cat.deim.asm_34.patinfly"
+    namespace = "cat.deim.asm.myapplication"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "cat.deim.asm_34.patinfly"
+        applicationId = "cat.deim.asm.myapplication"
         minSdk = 34
         targetSdk = 35
         versionCode = 1
