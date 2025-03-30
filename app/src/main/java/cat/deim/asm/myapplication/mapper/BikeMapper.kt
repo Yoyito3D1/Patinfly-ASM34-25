@@ -5,9 +5,9 @@ import cat.deim.asm.myapplication.model.BikeModel
 
 
 fun BikeModel.toDomain(): Bike {
-    return Bike(id = uuid, brand = marca, isActive = activo == 1)
+    return Bike(uuid, bikeType, isAvailable, batteryLevel, creationDate)
 }
 
 fun Bike.toModel(): BikeModel {
-    return BikeModel(id, brand, if (isActive) 1 else 0)
+    return BikeModel(uuid, bikeType, isAvailable, batteryLevel, creationDate)
 }

@@ -4,6 +4,7 @@ import cat.deim.asm.myapplication.datasource.IBikeDataSource
 import cat.deim.asm.myapplication.entity.Bike
 import cat.deim.asm.myapplication.mapper.toDomain
 import cat.deim.asm.myapplication.mapper.toModel
+import java.util.UUID
 
 
 class BikeRepository(private val dataSource: IBikeDataSource) : IBikeRepository {
@@ -17,8 +18,8 @@ class BikeRepository(private val dataSource: IBikeDataSource) : IBikeRepository 
         return dataSource.getAll().map { it.toDomain() }
     }
 
-    override fun getById(uuid: String): Bike? {
-        return dataSource.getById(uuid)
+    override fun getById(uuid: UUID): Bike? {
+        return dataSource.getById(uuid.toString())
     }
 
     override fun update(bike: Bike): Boolean {
