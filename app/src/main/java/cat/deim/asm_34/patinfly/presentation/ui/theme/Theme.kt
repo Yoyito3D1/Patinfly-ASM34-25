@@ -1,4 +1,4 @@
-package cat.deim.asm.myapplication.ui.theme
+package cat.deim.asm.myapplication.presentation.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,4 +1,4 @@
-package cat.deim.asm.myapplication
+package cat.deim.asm.myapplication.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -13,8 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import cat.deim.asm.myapplication.datasource.UserDataSource
-import cat.deim.asm.myapplication.entity.Bike
-import cat.deim.asm.myapplication.ui.theme.MyApplicationTheme
+import cat.deim.asm.myapplication.presentation.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
 

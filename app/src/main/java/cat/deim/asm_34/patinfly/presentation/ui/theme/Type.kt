@@ -1,4 +1,4 @@
-package cat.deim.asm.myapplication.ui.theme
+package cat.deim.asm.myapplication.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

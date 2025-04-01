@@ -1,12 +1,12 @@
 package cat.deim.asm.myapplication.repository
 
-import cat.deim.asm.myapplication.datasource.IUserDataSource
+import cat.deim.asm.myapplication.datasource.UserDataSource
 import cat.deim.asm.myapplication.entity.User
 import cat.deim.asm.myapplication.mapper.toDomain
 import cat.deim.asm.myapplication.mapper.toModel
 import java.util.UUID
 
-class UserRepository(private val dataSource: IUserDataSource) : IUserRepository {
+class UserRepository(private val dataSource: UserDataSource) : IUserRepository {
 
     override fun insert(user: User): Boolean {
         return dataSource.insert(user.toModel())
