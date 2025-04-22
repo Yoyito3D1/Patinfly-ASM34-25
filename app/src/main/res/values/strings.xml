@@ -1,4 +1,62 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="app_name">Patinfly</string>
+    <string name="welcome_text">Welcome to Patinfly</string>
+
+    <string name="available_bikes">Available Bikes</string>
+    <string name="bike_name">Name: %1$s</string>
+    <string name="bike_battery">Battery: %1$d%%</string>
+    <string name="bike_distance">Distance: %1$d meters</string>
+    <string name="bike_type">Type: %1$s</string>
+
+    <string name="login_image_description">Login Image</string>
+    <string name="login_email_label">Email</string>
+    <string name="login_password_label">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_error_message">Incorrect login</string>
+
+
+    <string name="pricing_title">Pricing Plans</string>
+    <string name="plan_name">Name: %1$s</string>
+    <string name="plan_description">Description: %1$s</string>
+    <string name="plan_price">Price: %1$.2f %2$s</string>
+    <string name="plan_per_minute">Per Minute: %1$.2f€</string>
+    <string name="plan_per_km">Per KM: %1$.2f€</string>
+    <string name="plan_taxable">Taxable: %1$s</string>
+
+    <string name="bike_image_description">Bike image</string>
+    <string name="battery_high">High battery</string>
+    <string name="battery_medium">Medium battery</string>
+    <string name="battery_low">Low battery</string>
+    <string name="bike_distance_format">%1$.1f km away</string>
+    <string name="view_details">View Details</string>
+
+    <string name="bike_detail_title">%1$s</string>
+    <string name="bike_battery_detail">%1$d%% battery</string>
+    <string name="bike_distance_detail">%1$d meters traveled</string>
+    <string name="bike_type_detail">Type: %1$s</string>
+    <string name="back_to_main">Back to Main</string>
+
+
+    <string name="splash_subtitle">Discover your city on two wheels</string>
+    <string name="get_started">Get Started</string>
+    <string name="splash_image_desc">Illustration of a bike path in a park</string>
+
+    <string name="login_welcome_title">Welcome back to Patinfly</string>
+    <string name="login_welcome_subtitle">Start exploring now</string>
+
+    <string name="profile_title">User Profile</string>
+    <string name="profile_name">Name: %1$s</string>
+    <string name="profile_email">Email: %1$s</string>
+    <string name="profile_creation_date">Account created on: %1$s</string>
+    <string name="profile_last_connection">Last connection: %1$s</string>
+    <string name="logout_button">Logout</string>
+    <string name="profile_picture_desc">User profile picture</string>
+    <string name="logout_confirm_title">Confirm logout</string>
+    <string name="logout_confirm_text">Are you sure you want to logout?</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="main_welcome">Welcome to Patinfly</string>
+    <string name="main_go_to_profile">My Profile</string>
+    <string name="main_view_bikes">View Bikes</string>
+    <string name="main_view_pricing">Pricing Plans</string>
+
 </resources>

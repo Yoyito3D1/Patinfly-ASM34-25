@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "cat.deim.asm.myapplication"
+    namespace = "cat.deim.asm34.patinfly"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "cat.deim.asm.myapplication"
+        applicationId = "cat.deim.asm34.patinfly"
         minSdk = 34
         targetSdk = 35
         versionCode = 1
@@ -41,7 +41,8 @@ android {
 
 dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
-
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
