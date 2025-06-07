@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PatinflyASM34"
+rootProject.name = "Patinfly"
 include(":app")

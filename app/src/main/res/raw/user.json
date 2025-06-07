@@ -1,9 +1,14 @@
-{
-  "uuid": "123e4567-e89b-12d3-a456-426614174000",
-  "name": "John Doe",
-  "email": "johndoe@example.com",
-  "hashed_password": "$2a$10$7aS.7xq9/9pJXQ6x3xQ9UOaQH6F6PdDklm8eSas9wq9FbO6uE1YiK",
-  "creation_date": "2024-02-27T12:34:56Z",
-  "last_connection": "2024-02-27T15:00:00Z",
-  "device_id": "ABC123XYZ789"
-}
+[
+  {
+    "uuid": "b89b2771-45b6-42c2-a9a2-13a72b1d8e80",
+    "username": "admin",
+    "email": "j@gmail.com",
+    "hashedPassword": "1234",
+    "creationDate": "2024-01-01",
+    "lastConnection": "2024-06-04",
+    "deviceId": "device-admin",
+    "isRenting": false,
+    "scooterRented": null,
+    "numberOfRents": 0
+  }
+]
