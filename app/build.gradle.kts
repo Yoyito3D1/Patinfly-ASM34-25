@@ -17,6 +17,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // 👉 Exponemos la clave a BuildConfig
+        // La propiedad GEOAPIFY_KEY se lee de gradle.properties o local.properties
+        buildConfigField(
+            "String",
+            "GEOAPIFY_KEY",
+            "\"${properties["GEOAPIFY_KEY"]}\""
+        )
     }
 
     buildTypes {
@@ -28,18 +36,22 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
     }
 }
+
 
 dependencies {
     implementation(libs.androidx.adapters)
@@ -63,7 +75,6 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
-
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
@@ -81,15 +92,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-
-    implementation ("io.coil-kt:coil-compose:2.6.0")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
 
-    implementation ("androidx.compose.material:material-icons-extended:1.3.1")
+    implementation("androidx.compose.material:material-icons-extended:1.3.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 }
-
