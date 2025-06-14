@@ -8,4 +8,5 @@ interface ISystemPricingPlanRepository {
     suspend fun getById(planId: String): SystemPricingPlan?
     suspend fun update(plan: SystemPricingPlan): Boolean
     suspend fun delete(planId: String): Boolean
+
 }

@@ -1,74 +1,65 @@
 package cat.deim.asm_34.patinfly.presentation.profile
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import cat.deim.asm_34.patinfly.data.datasource.database.AppDatabase
+import cat.deim.asm_34.patinfly.data.datasource.local.SystemPricingPlanDataSource
 import cat.deim.asm_34.patinfly.data.datasource.local.UserDataSource
-import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.BikeAPIDataSource
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.UserAPIDataSource
-import cat.deim.asm_34.patinfly.data.repository.BikeRepository
+import cat.deim.asm_34.patinfly.data.repository.SystemPricingPlanRepository
 import cat.deim.asm_34.patinfly.data.repository.UserRepository
-import cat.deim.asm_34.patinfly.domain.models.RentWithBike
+import cat.deim.asm_34.patinfly.domain.models.Rent
 import cat.deim.asm_34.patinfly.domain.models.User
 import cat.deim.asm_34.patinfly.domain.usecase.GetRentHistoryWithBikesUseCase
 import cat.deim.asm_34.patinfly.domain.usecase.GetUserUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ProfileViewModel : ViewModel() {
 
-    companion object { private const val TAG = "ProfileVM" }
+    private val _loading = MutableStateFlow(true)
+    val loading: StateFlow<Boolean> = _loading
 
-    private val _loading = MutableLiveData(true)
-    val   loading: LiveData<Boolean> = _loading
+    private val _user = MutableStateFlow<User?>(null)
+    val user: StateFlow<User?> = _user
 
-    private val _user = MutableLiveData<User?>()
-    val   user : LiveData<User?> = _user
+    private val _history = MutableStateFlow<List<Rent>>(emptyList())
+    val history: StateFlow<List<Rent>> = _history
 
-    private val _history = MutableLiveData<List<RentWithBike>>(emptyList())
-    val   history: LiveData<List<RentWithBike>> = _history
-
-    fun fetchProfile(ctx: Context, token: String) = viewModelScope.launch {
-        Log.d(TAG, "fetchProfile() start, token.len=${token.length}")
+    /** Carga usuario + historial con coste */
+    fun load(ctx: Context, token: String) = viewModelScope.launch {
         _loading.value = true
-
         try {
             val (u, h) = withContext(Dispatchers.IO) {
 
-                val userRepo = UserRepository(
-                    localUserDatasource = UserDataSource.getInstance(ctx),
-                    userAPIDataSource   = UserAPIDataSource.getInstance(),
-                    userDao             = AppDatabase.get(ctx).userDao(),
-                    sessionManager      = null
+                val userRepo   = UserRepository(
+                    UserDataSource.getInstance(ctx),
+                    UserAPIDataSource.getInstance(),
+                    AppDatabase.get(ctx).userDao(),
+                    null
                 )
-                val bikeRepo = BikeRepository(
-                    BikeAPIDataSource.getInstance(),
-                    AppDatabase.get(ctx).bikeDao()
+                val pricingRepo = SystemPricingPlanRepository(
+                    SystemPricingPlanDataSource.getInstance(ctx),
+                    AppDatabase.get(ctx).systemPricingPlanDao()
                 )
 
-                val user  = GetUserUseCase(userRepo).execute(token).also {
-                    Log.d(TAG, "User loaded: $it")
-                }
-                val rents = GetRentHistoryWithBikesUseCase(userRepo, bikeRepo)
-                    .execute(token).also {
-                        Log.d(TAG, "Rent history size=${it.size}")
-                    }
+                val rents = GetRentHistoryWithBikesUseCase(userRepo, pricingRepo).execute(token)
+                val user  = GetUserUseCase(userRepo).execute(token)
 
                 user to rents
             }
 
             _user.value    = u
             _history.value = h
-
-        } catch (e: Exception) {
-            Log.e(TAG, "Exception: ${e.message}", e)
+        } catch (_: Exception) {
             _user.value    = null
             _history.value = emptyList()
         } finally {
             _loading.value = false
-            Log.d(TAG, "fetchProfile() end")
         }
     }
 }

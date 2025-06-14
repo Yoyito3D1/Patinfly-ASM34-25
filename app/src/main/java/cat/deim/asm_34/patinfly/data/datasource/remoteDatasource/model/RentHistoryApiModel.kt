@@ -14,7 +14,7 @@ data class RentHistoryApiModel(
 
     fun toDomain(): Rent = Rent(
         uuid       = uuid,
-        vehicleId  = vehicle.uuid,
+        vehicleId  = vehicle.toDomain(),
         start      = parseTimestamp(startTime),
         end        = endTime?.let { parseTimestamp(it) }
     )

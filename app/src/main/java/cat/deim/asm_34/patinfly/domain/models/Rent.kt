@@ -4,7 +4,8 @@ import java.time.Instant
 
 data class Rent(
     val uuid      : String,
-    val vehicleId : String,
+    val vehicleId : Bike,
     val start     : Instant,
-    val end       : Instant?
+    val end       : Instant?,
+    var cost      : Double? = null
 )

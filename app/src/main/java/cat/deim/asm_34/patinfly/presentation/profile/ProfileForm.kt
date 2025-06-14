@@ -18,17 +18,16 @@ import androidx.compose.ui.unit.sp
 import cat.deim.asm_34.patinfly.R
 import cat.deim.asm_34.patinfly.domain.models.*
 
-
-
 @Composable
-fun ProfileForm(user: User, history: List<RentWithBike>) {
+fun ProfileForm(user: User, history: List<Rent>) {
 
     LazyColumn(
-        modifier = Modifier
+        Modifier
             .fillMaxSize()
             .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(32.dp)
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
+        /* tarjeta perfil */
         item {
             Card(
                 shape = RoundedCornerShape(24.dp),
@@ -53,6 +52,7 @@ fun ProfileForm(user: User, history: List<RentWithBike>) {
             }
         }
 
+        /* título */
         item {
             Text(
                 "Rental History",
@@ -60,7 +60,7 @@ fun ProfileForm(user: User, history: List<RentWithBike>) {
             )
         }
 
-        /* --- lista de rentas --- */
+        /* lista */
         if (history.isEmpty()) {
             item { Text("No rentals yet.") }
         } else {
@@ -70,29 +70,29 @@ fun ProfileForm(user: User, history: List<RentWithBike>) {
 }
 
 @Composable
-private fun RentCard(item: RentWithBike) {
-
-    val bikeLabel = item.bike?.bikeType?.name ?: "Bike ${item.rent.vehicleId.take(4)}…"
+private fun RentCard(rent: Rent) {
 
     val date = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
         .withZone(java.time.ZoneId.systemDefault())
-        .format(item.rent.start)
+        .format(rent.start)
 
-    val duration = item.rent.end?.let {
-        val mins = java.time.Duration.between(item.rent.start, it).toMinutes()
-        "${mins / 60} h ${mins % 60} m"
+    val duration = rent.end?.let {
+        val mins = java.time.Duration.between(rent.start, it).toMinutes()
+        "${mins / 60}h ${mins % 60}m"
     } ?: "In progress"
 
+    val costStr = rent.cost?.let { "Cost: %.2f €".format(it) } ?: ""
+
     Card(
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(2.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp)
+            .padding(vertical = 4.dp)
     ) {
         Column(Modifier.padding(16.dp)) {
-            Text("$bikeLabel – $date", fontWeight = FontWeight.SemiBold)
-            Text("Travel time: $duration", style = MaterialTheme.typography.bodySmall)
+            Text("$date – $duration", fontWeight = FontWeight.Medium)
+            if (costStr.isNotBlank()) Text(costStr, style = MaterialTheme.typography.bodySmall)
         }
     }
 }

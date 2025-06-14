@@ -27,9 +27,15 @@ class BikeRepository(
         val remoteBikes = bikeAPIDataSource.getAll(token)
         if (remoteBikes.isNotEmpty()) {
             Log.d("BikeRepository", "   🌐 API hit: ${remoteBikes.size} bicis")
-            val domainBikes = remoteBikes.map { it.toDomain() }
-            domainBikes.map { BikeDTO.fromDomain(it) }.forEach { bikeDao.save(it) }
-            return domainBikes
+
+            val result = mutableListOf<Bike>()
+            for (bikeApi in remoteBikes) {
+                val domain = bikeApi.toDomain()
+                bikeDao.save(BikeDTO.fromDomain(domain))
+                result.add(domain)
+            }
+
+            return result
         }
 
         Log.d("BikeRepository", "   ❌ No s'han trobat bicis")
@@ -103,11 +109,10 @@ class BikeRepository(
 
 
 
-    /* BikeRepository.kt */
 
     override suspend fun startRent(uuid: String, token: String): Bike {
         Log.d("BikeRepository", "startRent($uuid)")
-        val apiBike = bikeAPIDataSource.startRent(uuid, token)   // BikeApiModel
+        val apiBike = bikeAPIDataSource.startRent(uuid, token)
         val domain  = apiBike.toDomain()
         bikeDao.save(BikeDTO.fromDomain(domain))
         Log.d(
@@ -119,7 +124,7 @@ class BikeRepository(
 
     override suspend fun stopRent(uuid: String, token: String): Bike {
         Log.d("BikeRepository", "stopRent($uuid)")
-        val apiBike = bikeAPIDataSource.stopRent(uuid, token)    // BikeApiModel
+        val apiBike = bikeAPIDataSource.stopRent(uuid, token)
         val domain  = apiBike.toDomain()
         bikeDao.save(BikeDTO.fromDomain(domain))
         Log.d(
