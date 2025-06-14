@@ -8,9 +8,9 @@ import androidx.room.TypeConverters
 import cat.deim.asm_34.patinfly.data.datasource.database.model.BikeDTO
 import cat.deim.asm_34.patinfly.data.datasource.database.model.SystemPricingPlanDTO
 import cat.deim.asm_34.patinfly.data.datasource.database.model.UserDTO
-import cat.deim.asm_34.patinfly.data.datasource.dbdatasource.BikeDatasource
-import cat.deim.asm_34.patinfly.data.datasource.dbdatasource.SystemPricingPlanDatasource
-import cat.deim.asm_34.patinfly.data.datasource.dbdatasource.UserDatasource
+import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.BikeDatasource
+import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.SystemPricingPlanDatasource
+import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.UserDatasource
 import cat.deim.asm_34.patinfly.utils.Converters
 
 
@@ -37,7 +37,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "patinfly_24_database"
-                ).build().also { INSTANCE = it }
+                ).fallbackToDestructiveMigration()
+                    .build().also { INSTANCE = it }
             }
 
 

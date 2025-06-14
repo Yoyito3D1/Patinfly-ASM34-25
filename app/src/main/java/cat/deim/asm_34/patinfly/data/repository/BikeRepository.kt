@@ -3,7 +3,7 @@ package cat.deim.asm_34.patinfly.data.repository
 import android.util.Log
 import cat.deim.asm_34.patinfly.data.datasource.database.model.BikeDTO
 import cat.deim.asm_34.patinfly.data.datasource.database.model.toDomain
-import cat.deim.asm_34.patinfly.data.datasource.dbdatasource.BikeDatasource
+import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.BikeDatasource
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.BikeAPIDataSource
 import cat.deim.asm_34.patinfly.domain.models.Bike
 import cat.deim.asm_34.patinfly.domain.models.ServerStatus

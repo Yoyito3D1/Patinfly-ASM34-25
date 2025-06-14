@@ -12,19 +12,16 @@ class ToggleReserveUseCase(
     suspend fun execute(uuid: String, token: String): Bike {
         val current = session.getReservedBike()
 
-        // 1️⃣ Si ya hay otra reserva, la liberamos primero
         if (current != null && current != uuid) {
-            repo.release(current, token)          // ignoramos respuesta
+            repo.release(current, token)
             session.saveReservedBike(null)
         }
 
-        // 2️⃣ Alternamos sobre la bici que el usuario pulsó
         val updated = if (current == uuid)
             repo.release(uuid, token)
         else
             repo.reserve(uuid, token)
 
-        // 3️⃣ Guardamos el resultado
         session.saveReservedBike(
             if (updated.isReserved) updated.uuid else null
         )

@@ -2,6 +2,8 @@ package cat.deim.asm_34.patinfly.presentation.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -16,44 +18,53 @@ import androidx.compose.ui.unit.sp
 import cat.deim.asm_34.patinfly.R
 import cat.deim.asm_34.patinfly.domain.models.*
 
+
+
 @Composable
 fun ProfileForm(user: User, history: List<RentWithBike>) {
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
-        Card(
-            shape = RoundedCornerShape(24.dp),
-            elevation = CardDefaults.cardElevation(4.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+        item {
+            Card(
+                shape = RoundedCornerShape(24.dp),
+                elevation = CardDefaults.cardElevation(4.dp),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Image(
-                    painter = painterResource(R.drawable.profile_image),
-                    contentDescription = null,
-                    modifier = Modifier.size(64.dp).clip(CircleShape)
-                )
-                Spacer(Modifier.width(16.dp))
-                Column {
-                    Text(user.name, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-                    Text(user.email, color = MaterialTheme.colorScheme.primary)
+                Row(
+                    Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.profile_image),
+                        contentDescription = null,
+                        modifier = Modifier.size(64.dp).clip(CircleShape)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column {
+                        Text(user.name, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                        Text(user.email, color = MaterialTheme.colorScheme.primary)
+                    }
                 }
             }
         }
 
-        /* -- historial -- */
-        Text("Rental History", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold))
+        item {
+            Text(
+                "Rental History",
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+            )
+        }
 
+        /* --- lista de rentas --- */
         if (history.isEmpty()) {
-            Text("No rentals yet.")
+            item { Text("No rentals yet.") }
         } else {
-            history.forEach { RentCard(it) }
+            items(history) { RentCard(it) }
         }
     }
 }

@@ -1,7 +1,7 @@
 package cat.deim.asm_34.patinfly.data.repository
 
 import cat.deim.asm_34.patinfly.data.datasource.database.model.SystemPricingPlanDTO
-import cat.deim.asm_34.patinfly.data.datasource.dbdatasource.SystemPricingPlanDatasource
+import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.SystemPricingPlanDatasource
 import cat.deim.asm_34.patinfly.data.datasource.local.SystemPricingPlanDataSource
 import cat.deim.asm_34.patinfly.domain.models.SystemPricingPlan
 import cat.deim.asm_34.patinfly.domain.repository.ISystemPricingPlanRepository
@@ -12,12 +12,20 @@ class SystemPricingPlanRepository(
 
 
     override suspend fun getAll(): Collection<SystemPricingPlan> {
-        systemPricingPlanDao.getLatest()?.toDomain()?.let { return listOf(it) }
+        systemPricingPlanDao.getLatest()?.toDomain()?.let {
+            return listOf(it)
+        }
 
         val models = localSystemPricingPlanDatasource.getAll()
-        val domains = models.map { it.toDomain() }
-        domains.forEach { systemPricingPlanDao.save(SystemPricingPlanDTO.fromDomain(it)) }
-        return domains
+        val result = mutableListOf<SystemPricingPlan>()
+
+        for (model in models) {
+            val domain = model.toDomain()
+            systemPricingPlanDao.save(SystemPricingPlanDTO.fromDomain(domain))
+            result.add(domain)
+        }
+
+        return result
     }
 
 

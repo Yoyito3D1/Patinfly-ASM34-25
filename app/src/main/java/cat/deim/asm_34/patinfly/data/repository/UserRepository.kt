@@ -3,7 +3,7 @@ package cat.deim.asm_34.patinfly.data.repository
 import android.util.Log
 import cat.deim.asm_34.patinfly.data.datasource.database.model.UserDTO
 import cat.deim.asm_34.patinfly.data.datasource.database.model.toDomain
-import cat.deim.asm_34.patinfly.data.datasource.dbdatasource.UserDatasource
+import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.UserDatasource
 import cat.deim.asm_34.patinfly.data.datasource.local.UserDataSource
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.UserAPIDataSource
 import cat.deim.asm_34.patinfly.data.session.SessionManager
@@ -36,7 +36,7 @@ class UserRepository(
     override suspend fun getUserByUUID(uuid: String): User? {
         userDao.getUserByUUID(uuid)?.toDomain()?.let { return it }
         val fromJson = localUserDatasource.getAll()
-            .firstOrNull { it.uuid == uuid.toString() }
+            .firstOrNull { it.uuid == uuid }
             ?.toDomain()
             ?: return null
         userDao.save(UserDTO.fromDomain(fromJson))

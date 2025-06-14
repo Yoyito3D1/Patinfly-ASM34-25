@@ -1,4 +1,4 @@
-package cat.deim.asm_34.patinfly.data.datasource.dbdatasource
+package cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource
 
 
 import androidx.room.*

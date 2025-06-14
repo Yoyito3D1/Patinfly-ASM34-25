@@ -20,7 +20,6 @@ class UserAPIDataSource private constructor() {
             instance ?: synchronized(this) {
                 instance ?: UserAPIDataSource().also {
                     instance = it
-                    // Creamos Retrofit con Gson
                     retrofitService = Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .client(OkHttpClient.Builder().build())
