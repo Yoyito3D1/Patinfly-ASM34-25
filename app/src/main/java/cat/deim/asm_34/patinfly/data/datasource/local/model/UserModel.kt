@@ -30,7 +30,7 @@ data class UserModel(
     val isRenting: Boolean,
 
     @SerializedName("scooterRented")
-    val scooterRented: String?,  // UUID en texto o null
+    val scooterRented: String?,
 
     @SerializedName("numberOfRents")
     val numberOfRents: Int

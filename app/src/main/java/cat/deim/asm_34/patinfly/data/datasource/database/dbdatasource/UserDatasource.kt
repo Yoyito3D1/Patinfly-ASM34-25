@@ -3,7 +3,6 @@ package cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource
 
 import androidx.room.*
 import cat.deim.asm_34.patinfly.data.datasource.database.model.UserDTO
-import java.util.UUID
 
 
 @Dao

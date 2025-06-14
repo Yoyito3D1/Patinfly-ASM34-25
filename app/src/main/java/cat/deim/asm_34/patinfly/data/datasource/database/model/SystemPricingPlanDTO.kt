@@ -11,7 +11,7 @@ import cat.deim.asm_34.patinfly.domain.models.DataPlan
 import cat.deim.asm_34.patinfly.utils.Converters
 
 @Entity(tableName = "systempricingplan")
-@TypeConverters(Converters::class)        // Date ⇆ String
+@TypeConverters(Converters::class)    
 data class SystemPricingPlanDTO(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val lastUpdated: Date,

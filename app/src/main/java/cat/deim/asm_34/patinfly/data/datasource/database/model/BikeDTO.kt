@@ -1,4 +1,3 @@
-/* ---------- cat.deim.asm_34.patinfly.data.datasource.database.model.BikeDTO ---------- */
 package cat.deim.asm_34.patinfly.data.datasource.database.model
 
 import androidx.room.Entity

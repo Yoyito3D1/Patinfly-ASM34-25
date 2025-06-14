@@ -5,6 +5,8 @@ import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.SystemPric
 import cat.deim.asm_34.patinfly.data.datasource.local.SystemPricingPlanDataSource
 import cat.deim.asm_34.patinfly.domain.models.SystemPricingPlan
 import cat.deim.asm_34.patinfly.domain.repository.ISystemPricingPlanRepository
+
+
 class SystemPricingPlanRepository(
     private val localSystemPricingPlanDatasource: SystemPricingPlanDataSource,
     private val systemPricingPlanDao: SystemPricingPlanDatasource

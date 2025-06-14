@@ -44,7 +44,7 @@ class ProfileViewModel : ViewModel() {
                     sessionManager      = null
                 )
                 val bikeRepo = BikeRepository(
-                    BikeAPIDataSource.getInstance(ctx),
+                    BikeAPIDataSource.getInstance(),
                     AppDatabase.get(ctx).bikeDao()
                 )
 

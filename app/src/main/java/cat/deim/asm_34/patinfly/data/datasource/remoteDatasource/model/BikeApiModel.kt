@@ -50,8 +50,8 @@ data class BikeApiModel(
             name               = name,
             bikeType           = BikeType(
                 uuid = vehicleTypeId,
-                name = vehicleTypeId, // o algún mapping por nombre
-                type = "Electric"     // hardcode o extraído de otro campo
+                name = vehicleTypeId,
+                type = "Electric"
             ),
             creationDate       = Date(),
             lastMaintenanceDate = Date(),

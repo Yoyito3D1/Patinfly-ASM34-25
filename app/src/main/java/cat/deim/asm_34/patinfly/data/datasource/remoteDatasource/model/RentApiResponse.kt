@@ -1,4 +1,3 @@
-// RentApiResponse.kt
 package cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.model
 
 import com.google.gson.annotations.SerializedName

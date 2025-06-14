@@ -25,7 +25,6 @@ class SessionManager(context: Context) {
     fun isTokenExpired(): Boolean {
         val expiresStr = getExpires()
         return try {
-            // Si la cadena termina en 'Z' o contiene '+' (offset), usa OffsetDateTime
             val expiresAt = if (expiresStr.endsWith("Z") || expiresStr.contains('+')) {
                 OffsetDateTime.parse(expiresStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
                     .toLocalDateTime()

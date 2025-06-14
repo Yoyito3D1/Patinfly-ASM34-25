@@ -59,7 +59,7 @@ class UserDataSource private constructor() : IUserDataSource {
         usersMailMap[user.email] = user
     }
 
-    // Métodos de la interfaz siguen igual
+
     override fun getUserByUUID(uuid: UUID): UserModel? = usersUUIDMap[uuid]
     override fun getUserByEmail(email: String): UserModel? = usersMailMap[email]
 

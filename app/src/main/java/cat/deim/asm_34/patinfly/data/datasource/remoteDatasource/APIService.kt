@@ -34,7 +34,7 @@ interface APIService {
         @Header("Authorization") token: String,
         @Header("Origin") origin: String = "https://api.patinfly.dev",
         @Path("uuid") uuid: String
-    ): ReserveReleaseApiResponse          // ← ahora devuelve JSON
+    ): ReserveReleaseApiResponse
 
     @POST("api/vehicle/release/{uuid}")
     suspend fun releaseBike(

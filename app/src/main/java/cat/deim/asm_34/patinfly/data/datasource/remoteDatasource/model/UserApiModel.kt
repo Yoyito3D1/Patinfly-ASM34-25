@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
-import java.util.*
+
 
 @Serializable
 data class UserApiModel(
@@ -27,13 +27,13 @@ data class UserApiModel(
             uuid = uuid,
             name = fullname,
             email = email,
-            hashedPassword = "",                // No disponible en API
-            creationDate = "",                 // No disponible en API
-            lastConnection = "",              // No disponible en API
-            deviceId = "",                    // No disponible en API
-            isRenting = false,                // No disponible en API
-            scooterRented = null,             // No disponible en API
-            numberOfRents = 0                 // No disponible en API
+            hashedPassword = "",
+            creationDate = "",
+            lastConnection = "",
+            deviceId = "",
+            isRenting = false,
+            scooterRented = null,
+            numberOfRents = 0
         )
     }
 }

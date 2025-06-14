@@ -27,7 +27,7 @@ class BikeRentDetailViewModel : ViewModel() {
         _loading.value = true
         _bike.value = withContext(Dispatchers.IO) {
             BikeRepository(
-                BikeAPIDataSource.getInstance(ctx),
+                BikeAPIDataSource.getInstance(),
                 AppDatabase.get(ctx).bikeDao()
             ).getById(uuid, token)
         }
@@ -38,7 +38,7 @@ class BikeRentDetailViewModel : ViewModel() {
         val current = _bike.value ?: return@launch
         val session = SessionManager(ctx)
         val repo    = BikeRepository(
-            BikeAPIDataSource.getInstance(ctx),
+            BikeAPIDataSource.getInstance(),
             AppDatabase.get(ctx).bikeDao()
         )
         _loading.value = true

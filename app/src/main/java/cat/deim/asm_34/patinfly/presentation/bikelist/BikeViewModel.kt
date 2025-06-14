@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cat.deim.asm_34.patinfly.data.datasource.database.AppDatabase
-import cat.deim.asm_34.patinfly.data.datasource.local.BikeDataSource
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.BikeAPIDataSource
 import cat.deim.asm_34.patinfly.data.repository.BikeRepository
 import cat.deim.asm_34.patinfly.data.session.SessionManager
@@ -16,7 +15,7 @@ import cat.deim.asm_34.patinfly.domain.usecase.GetBikesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
+
 class BikeViewModel : ViewModel() {
 
     private val _bikes = MutableLiveData<List<Bike>>()
@@ -32,7 +31,7 @@ class BikeViewModel : ViewModel() {
             try {
                 val list = withContext(Dispatchers.IO) {
                     val repo = BikeRepository(
-                        BikeAPIDataSource.getInstance(context),
+                        BikeAPIDataSource.getInstance(),
                         AppDatabase.get(context).bikeDao()
                     )
                     GetBikesUseCase(repo).execute(token)

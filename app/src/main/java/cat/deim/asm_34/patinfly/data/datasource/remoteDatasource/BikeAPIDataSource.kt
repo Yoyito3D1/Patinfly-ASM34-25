@@ -1,10 +1,8 @@
 package cat.deim.asm_34.patinfly.data.datasource.remoteDatasource
 
-import android.content.Context
 import android.util.Log
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.model.BikeApiModel
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.model.StatusApiModel
-import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.model.UserApiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -18,7 +16,7 @@ class BikeAPIDataSource private constructor() {
         @Volatile private var instance: BikeAPIDataSource? = null
         private lateinit var retrofitService: APIService
 
-        fun getInstance(context: Context): BikeAPIDataSource =
+        fun getInstance(): BikeAPIDataSource =
             instance ?: synchronized(this) {
                 instance ?: BikeAPIDataSource().also {
                     instance = it

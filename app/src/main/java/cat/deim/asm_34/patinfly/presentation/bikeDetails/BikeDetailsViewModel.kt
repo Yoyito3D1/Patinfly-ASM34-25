@@ -1,7 +1,6 @@
 package cat.deim.asm_34.patinfly.presentation.bikeDetails
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
 import cat.deim.asm_34.patinfly.data.datasource.database.AppDatabase
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.BikeAPIDataSource
@@ -29,7 +28,7 @@ class BikeDetailViewModel : ViewModel() {
         _loading.value = true
         _bike.value = withContext(Dispatchers.IO) {
             BikeRepository(
-                BikeAPIDataSource.getInstance(ctx),
+                BikeAPIDataSource.getInstance(),
                 AppDatabase.get(ctx).bikeDao()
             ).let { GetBikeDetailUseCase(it).execute(uuid, token) }
         }
@@ -41,7 +40,7 @@ class BikeDetailViewModel : ViewModel() {
         val token   = SessionManager(ctx).getToken()
         val session = SessionManager(ctx)
         val repo    = BikeRepository(
-            BikeAPIDataSource.getInstance(ctx),
+            BikeAPIDataSource.getInstance(),
             AppDatabase.get(ctx).bikeDao()
         )
         val uc = ToggleReserveUseCase(repo, session)

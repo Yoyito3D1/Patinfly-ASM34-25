@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
             sessionManager      = session
         )
         val bikeRepo = BikeRepository(
-            BikeAPIDataSource.getInstance(applicationContext),
+            BikeAPIDataSource.getInstance(),
             AppDatabase.get(applicationContext).bikeDao()
         )
 

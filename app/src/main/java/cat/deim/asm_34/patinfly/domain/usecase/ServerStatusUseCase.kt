@@ -10,7 +10,7 @@ class ServerStatusUseCase {
     companion object {
         suspend fun execute(context: Context): ServerStatus {
             val bikeRepository = BikeRepository(
-                BikeAPIDataSource.getInstance(context),
+                BikeAPIDataSource.getInstance(),
                 AppDatabase.get(context).bikeDao()
             )
             return bikeRepository.status()
