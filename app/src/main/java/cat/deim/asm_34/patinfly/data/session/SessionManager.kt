@@ -38,19 +38,6 @@ class SessionManager(context: Context) {
         }
     }
 
-    fun saveReservedBike(uuid: String?) {
-        prefs.edit().putString("reserved_uuid", uuid ?: "").apply()
-    }
-
-    fun getReservedBike(): String? =
-        prefs.getString("reserved_uuid", "")?.takeIf { it.isNotBlank() }
-
-
-    fun saveRentedBike(uuid: String?) {
-        prefs.edit().putString("rented_uuid", uuid ?: "").apply()
-    }
-    fun getRentedBike(): String? =
-        prefs.getString("rented_uuid", "")?.takeIf { it.isNotBlank() }
 
     fun clear() {
         prefs.edit().clear().apply()

@@ -1,13 +1,11 @@
 package cat.deim.asm_34.patinfly.domain.usecase
 
-import cat.deim.asm_34.patinfly.data.session.SessionManager
 import cat.deim.asm_34.patinfly.domain.models.Bike
 import cat.deim.asm_34.patinfly.domain.repository.IBikeRepository
 
 
 class ToggleReserveUseCase(
     private val repo: IBikeRepository,
-    private val session: SessionManager
 ) {
     suspend fun execute(uuid: String, token: String): Bike {
         val current = session.getReservedBike()

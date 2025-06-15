@@ -25,6 +25,7 @@ fun MainScreenContent(
     val session  = SessionManager(context)
     val token    = session.getToken()
 
+    //TODO LLAMAR AL USECASE NUEVO QUE MIRE SI EXISTE BIKE EN RESERVED PARA USER X (LOGICA DE HABILITADO DESAVILITADO)
     val reservedId: String? = SessionManager(context).getReservedBike()
 
     var loading by remember { mutableStateOf(true) }

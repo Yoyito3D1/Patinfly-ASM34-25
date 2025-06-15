@@ -8,6 +8,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BatteryFull
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,7 +28,6 @@ import cat.deim.asm_34.patinfly.presentation.bikeRentDetail.BikeRentDetailActivi
 import cat.deim.asm_34.patinfly.presentation.bikelist.BikeListActivity
 import cat.deim.asm_34.patinfly.presentation.profile.ProfileActivity
 
-
 @Composable
 fun MainForm(
     user: User,
@@ -34,7 +35,7 @@ fun MainForm(
     loadingBikes: Boolean,
     reservedId: String?
 ) {
-    val context     = LocalContext.current
+    val context = LocalContext.current
     val hasReserved = reservedId != null
 
     Box(
@@ -47,20 +48,21 @@ fun MainForm(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(48.dp)
         ) {
-
+            /* ---------- Header ---------- */
             Text(
                 "Patinfly",
                 style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Black),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
+            /* ---------- Profile Card ---------- */
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { context.startActivity(Intent(context, ProfileActivity::class.java)) },
-                colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 elevation = CardDefaults.cardElevation(4.dp),
-                shape     = MaterialTheme.shapes.extraLarge
+                shape = MaterialTheme.shapes.extraLarge
             ) {
                 Row(
                     modifier = Modifier.padding(24.dp),
@@ -96,16 +98,9 @@ fun MainForm(
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier
                         .clickable {
-                            if (hasReserved) {
-                                context.startActivity(
-                                    Intent(context, BikeDetailActivity::class.java)
-                                        .putExtra("BIKE_UUID", reservedId)
-                                )
-                            } else {
-                                context.startActivity(Intent(context, BikeListActivity::class.java))
-                            }
+                            context.startActivity(Intent(context, BikeListActivity::class.java))
                         }
-                        .padding(8.dp)     // Amplía área táctil
+                        .padding(8.dp)
                 )
             }
 
@@ -116,40 +111,24 @@ fun MainForm(
                     horizontalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp)
+                        .height(200.dp)
                 ) {
                     items(bikes) { bike ->
                         BikeAroundItem(bike) {
-                            context.startActivity(Intent(context, BikeListActivity::class.java))
+                            context.startActivity(
+                                Intent(context, BikeDetailActivity::class.java)
+                                    .putExtra("BIKE_UUID", bike.uuid)
+                            )
                         }
                     }
                 }
             }
 
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text(
-                    "Categories",
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(32.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CategoryItem(
-                        iconRes = R.drawable.bike_type_1,
-                        label   = "Urban"
-                    ) { context.startActivity(Intent(context, BikeListActivity::class.java)) }
-
-                    CategoryItem(
-                        iconRes = R.drawable.bike_type_2,
-                        label   = "Electric"
-                    ) { context.startActivity(Intent(context, BikeListActivity::class.java)) }
-                }
-            }
+            /* ---------- Categories ---------- */
+            CategorySection(
+                onUrbanClick = { context.startActivity(Intent(context, BikeListActivity::class.java)) },
+                onElectricClick = { context.startActivity(Intent(context, BikeListActivity::class.java)) }
+            )
         }
 
         /* ---------- QR Button ---------- */
@@ -165,14 +144,16 @@ fun MainForm(
                 }
             },
             containerColor = if (hasReserved) Color(0xFF00E676) else Color.Gray,
-            modifier = Modifier.align(Alignment.BottomEnd).size(72.dp)
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .size(72.dp)
         ) {
             Text("QR", color = Color.White, fontWeight = FontWeight.Bold)
         }
     }
 }
 
-
+/* ---------- Around-you card ---------- */
 @Composable
 private fun BikeAroundItem(
     bike: Bike,
@@ -180,11 +161,11 @@ private fun BikeAroundItem(
 ) {
     Card(
         modifier = Modifier
-            .width(150.dp)
+            .width(160.dp)
             .clickable { onClick() },
-        shape      = MaterialTheme.shapes.medium,
-        elevation  = CardDefaults.cardElevation(4.dp),
-        colors     = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column {
             Image(
@@ -195,11 +176,53 @@ private fun BikeAroundItem(
                     .height(110.dp)
                     .clip(MaterialTheme.shapes.medium)
             )
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(8.dp))
             Text(
                 "${(bike.meters / 1000.0).format(1)} km away",
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 12.dp, bottom = 12.dp)
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            /*  nuevo dato extra: % batería  */
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(start = 12.dp, bottom = 12.dp, top = 4.dp)
+            ) {
+                Icon(Icons.Default.BatteryFull, contentDescription = null, modifier = Modifier.size(16.dp))
+                Spacer(Modifier.width(4.dp))
+                Text("${bike.batteryLevel}%")
+            }
+        }
+    }
+}
+
+/* ---------- Categories block ---------- */
+@Composable
+private fun CategorySection(
+    onUrbanClick: () -> Unit,
+    onElectricClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            "Categories",
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(32.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CategoryItem(
+                iconRes = R.drawable.bike_type_1,
+                label = "Urban",
+                onClick = onUrbanClick
+            )
+            CategoryItem(
+                iconRes = R.drawable.bike_type_2,
+                label = "Electric",
+                onClick = onElectricClick
             )
         }
     }
