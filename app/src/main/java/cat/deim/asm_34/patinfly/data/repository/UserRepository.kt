@@ -65,10 +65,8 @@ class UserRepository(
     override suspend fun login(credentials: Credentials): Boolean {
         return try {
             Log.d("UserRepository", "login() → iniciando con email=${credentials.email}")
-            val response = userAPIDataSource.login(
-                credentials.email,
-                credentials.password
-            )
+
+            val response = userAPIDataSource.login(credentials.email, credentials.password)
             Log.d("UserRepository", "login() ← respuesta recibida: success=${response.success}, access=${response.token.access}")
 
             if (response.success) {

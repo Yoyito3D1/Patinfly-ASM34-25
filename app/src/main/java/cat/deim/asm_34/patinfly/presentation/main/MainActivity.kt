@@ -33,10 +33,7 @@ class MainActivity : ComponentActivity() {
             userDao             = AppDatabase.get(applicationContext).userDao(),
             sessionManager      = session
         )
-        val bikeRepo = BikeRepository(
-            BikeAPIDataSource.getInstance(),
-            AppDatabase.get(applicationContext).bikeDao()
-        )
+        val bikeRepo = BikeRepository(BikeAPIDataSource.getInstance(), AppDatabase.get(applicationContext).bikeDao())
 
         setContent {
             PatinflyTheme {

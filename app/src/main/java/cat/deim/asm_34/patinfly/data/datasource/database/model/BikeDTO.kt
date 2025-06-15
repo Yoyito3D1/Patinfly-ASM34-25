@@ -14,18 +14,15 @@ import cat.deim.asm_34.patinfly.utils.Converters
 data class BikeDTO(
     @PrimaryKey val uuid: String,
     val name: String,
-
     val bikeTypeUuid: String,
     val bikeTypeName: String,
     val bikeTypeType: String,
-
     val creationDate: Date,
     val lastMaintenanceDate: Date,
     val inMaintenance: Boolean,
     val isActive: Boolean,
     val batteryLevel: Int,
     val meters: Int,
-
     val isReserved: Boolean,
     val isRented: Boolean,
     val isDisabled: Boolean,

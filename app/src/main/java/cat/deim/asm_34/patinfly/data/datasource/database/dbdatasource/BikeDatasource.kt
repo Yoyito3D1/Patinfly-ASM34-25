@@ -13,8 +13,10 @@ import java.util.UUID
 interface BikeDatasource {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(bike: BikeDTO)
+
     @Update
     suspend fun update(bike: BikeDTO)
+
     @Delete
     suspend fun delete(bike: BikeDTO)
 

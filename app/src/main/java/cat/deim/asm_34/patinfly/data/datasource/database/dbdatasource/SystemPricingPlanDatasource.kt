@@ -13,8 +13,10 @@ import cat.deim.asm_34.patinfly.data.datasource.database.model.SystemPricingPlan
 interface SystemPricingPlanDatasource {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(plan: SystemPricingPlanDTO)
+
     @Update
     suspend fun update(plan: SystemPricingPlanDTO)
+
     @Delete
     suspend fun delete(plan: SystemPricingPlanDTO)
 

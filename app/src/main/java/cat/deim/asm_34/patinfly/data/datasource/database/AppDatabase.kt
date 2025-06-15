@@ -13,7 +13,6 @@ import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.SystemPric
 import cat.deim.asm_34.patinfly.data.datasource.database.dbdatasource.UserDatasource
 import cat.deim.asm_34.patinfly.utils.Converters
 
-
 @Database(
     entities = [
         UserDTO::class,

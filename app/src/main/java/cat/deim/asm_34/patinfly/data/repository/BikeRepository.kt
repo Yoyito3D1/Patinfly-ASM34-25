@@ -34,7 +34,6 @@ class BikeRepository(
                 bikeDao.save(BikeDTO.fromDomain(domain))
                 result.add(domain)
             }
-
             return result
         }
 
@@ -53,7 +52,6 @@ class BikeRepository(
             bikeDao.save(BikeDTO.fromDomain(domain))
             return domain
         }
-
         return null
     }
 

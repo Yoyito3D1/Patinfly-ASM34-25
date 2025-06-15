@@ -53,7 +53,6 @@ fun SplashForm(function: () -> Unit) {
                 )
             }
 
-            // Image
             Image(
                 painter = painterResource(id = R.drawable.splash_image),
                 contentDescription = stringResource(id = R.string.splash_image_description),
@@ -63,7 +62,6 @@ fun SplashForm(function: () -> Unit) {
                     .clip(RoundedCornerShape(20.dp))
             )
 
-            // Button
             Button(
                 onClick = {
                     context.startActivity(Intent(context, LoginActivity::class.java))

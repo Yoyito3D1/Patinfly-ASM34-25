@@ -1,6 +1,5 @@
 package cat.deim.asm_34.patinfly.presentation.login
 
-import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,7 +11,6 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -31,7 +29,6 @@ import kotlinx.coroutines.withContext
 fun UserLoginForm(loginUsecase: LoginUsecase?) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    val activity = context as? Activity
 
     var credentials by remember { mutableStateOf(Credentials()) }
     var loginFailed by remember { mutableStateOf(false) }
@@ -94,7 +91,7 @@ fun UserLoginForm(loginUsecase: LoginUsecase?) {
 
             if (loginFailed) {
                 Text(
-                    text = "Credenciales incorrectas",
+                    text = "Wrong credentials",
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(top = 8.dp)
                 )
