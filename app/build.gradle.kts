@@ -15,11 +15,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // 👉 Exponemos la clave a BuildConfig
-        // La propiedad GEOAPIFY_KEY se lee de gradle.properties o local.properties
         buildConfigField(
             "String",
             "GEOAPIFY_KEY",
@@ -49,9 +46,9 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
-
 
 dependencies {
     implementation(libs.androidx.adapters)

@@ -22,7 +22,6 @@ class BikeDetailViewModel : ViewModel() {
     private val _loading = MutableLiveData(false)
     val   loading: LiveData<Boolean> = _loading
 
-    /** Carga inicial ― sin cambios */
     fun fetchBike(ctx: Context, uuid: String) = viewModelScope.launch {
         val token = SessionManager(ctx).getToken()
         _loading.value = true
@@ -35,7 +34,6 @@ class BikeDetailViewModel : ViewModel() {
         _loading.value = false
     }
 
-    /** Alterna Reserve / Release usando el nuevo use-case */
     fun toggleReserve(ctx: Context, uuid: String) = viewModelScope.launch {
         val token   = SessionManager(ctx).getToken()
         val session = SessionManager(ctx)

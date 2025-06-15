@@ -22,18 +22,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import cat.deim.asm_34.patinfly.BuildConfig
-
 import cat.deim.asm_34.patinfly.R
 import cat.deim.asm_34.patinfly.domain.models.Bike
-
-import coil.compose.AsyncImage
+import cat.deim.asm_34.patinfly.BuildConfig
+import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import java.text.DateFormat
 
-/* ------------------------------------------------------------- */
-/*  Composable principal                                         */
-/* ------------------------------------------------------------- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BikeDetailForm(
@@ -61,8 +56,6 @@ fun BikeDetailForm(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-
-        /* barra superior */
         SmallTopAppBar(
             title = { Text("Patinfly") },
             navigationIcon = {
@@ -72,7 +65,6 @@ fun BikeDetailForm(
             }
         )
 
-        /* tarjeta con detalles */
         Card(
             Modifier
                 .fillMaxWidth()
@@ -117,7 +109,6 @@ fun BikeDetailForm(
             }
         }
 
-        /* botón reservar/liberar */
         val (label, color) = if (bike.isReserved)
             "Release" to 0xFFD6D6D6
         else
@@ -133,11 +124,10 @@ fun BikeDetailForm(
                 .padding(horizontal = 32.dp, vertical = 8.dp)
         ) { Text(label, fontWeight = FontWeight.Bold) }
 
-        /* ---------- MAPA ESTÁTICO GEOAPIFY ---------- */
         StaticGeoapifyMap(
-            lat    = bike.latitude,
-            lon    = bike.longitude,
-            apiKey = BuildConfig.GEOAPIFY_KEY,
+            lat      = bike.latitude,
+            lon      = bike.longitude,
+            apiKey   = BuildConfig.GEOAPIFY_KEY,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(260.dp)
@@ -146,9 +136,6 @@ fun BikeDetailForm(
     }
 }
 
-/* ------------------------------------------------------------- */
-/*  Auxiliares                                                   */
-/* ------------------------------------------------------------- */
 @Composable
 private fun DetailRow(icon: ImageVector, text: String) {
     Row(
@@ -167,9 +154,6 @@ private fun batteryStatus(level: Int) = when {
     else        -> "Low battery"
 }
 
-/* ------------------------------------------------------------- */
-/*  Geoapify Static Map helper                                   */
-/* ------------------------------------------------------------- */
 private fun geoapifyStaticMapUrl(
     lat: Double,
     lon: Double,
@@ -200,20 +184,26 @@ private fun StaticGeoapifyMap(
         geoapifyStaticMapUrl(lat, lon, zoom, apiKey = apiKey)
     }
 
-    AsyncImage(
+    SubcomposeAsyncImage(
         model = ImageRequest.Builder(ctx)
             .data(url)
             .crossfade(true)
-            .listener(
-                onError = { _, t ->
-                    Log.e("GeoapifyMap", "Error loading map", t.throwable)
-                }
-            )
             .build(),
         contentDescription = "Mapa estático Geoapify",
         modifier = modifier.clip(RoundedCornerShape(16.dp)),
         contentScale = ContentScale.Crop,
-        placeholder = painterResource(R.drawable.map_placeholder),
-        error       = painterResource(R.drawable.map_placeholder)
+        loading = {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        },
+        error = {
+            Image(
+                painterResource(R.drawable.map_placeholder),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+        }
     )
 }

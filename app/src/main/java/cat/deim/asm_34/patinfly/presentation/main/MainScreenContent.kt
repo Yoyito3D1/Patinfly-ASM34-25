@@ -25,7 +25,6 @@ fun MainScreenContent(
     val session  = SessionManager(context)
     val token    = session.getToken()
 
-    /* 🔄  Siempre lee la preferencia viva */
     val reservedId: String? = SessionManager(context).getReservedBike()
 
     var loading by remember { mutableStateOf(true) }
@@ -33,7 +32,6 @@ fun MainScreenContent(
     var bikes   by remember { mutableStateOf<List<Bike>>(emptyList()) }
 
     LaunchedEffect(token) {
-        /* --- Sesión válida --- */
         if (token.isBlank() || session.isTokenExpired()) {
             context.startActivity(Intent(context, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -42,7 +40,6 @@ fun MainScreenContent(
             return@LaunchedEffect
         }
 
-        /* --- Perfil y bicis --- */
         user = runCatching {
             withContext(Dispatchers.IO) { getUserUseCase.execute(token) }
         }.getOrNull()
@@ -63,7 +60,7 @@ fun MainScreenContent(
             user         = user!!,
             bikes        = bikes,
             loadingBikes = false,
-            reservedId   = reservedId        // ← valor actualizado siempre
+            reservedId   = reservedId
         )
 
         else -> context.startActivity(Intent(context, LoginActivity::class.java).apply {
@@ -73,5 +70,3 @@ fun MainScreenContent(
     }
 }
 
-/* Helper local (por si se usa en otras composables de este archivo) */
-private fun Double.format(digits: Int) = "%.${digits}f".format(this)
