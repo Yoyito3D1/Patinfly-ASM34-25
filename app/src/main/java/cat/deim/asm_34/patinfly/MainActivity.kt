@@ -25,11 +25,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 
 
-/**
- * Main entry point of the app.
- * Replace or remove DebugMainActivity references in the manifest so that this
- * activity is launched instead.
- */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +42,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/** Simple greeting that can be swapped for the real UI later. */
+
 @Composable
 fun Greeting() {
     Text(text = "¡Hola, Patinfly!")

@@ -31,7 +31,6 @@ class ProfileViewModel : ViewModel() {
     private val _history = MutableStateFlow<List<Rent>>(emptyList())
     val history: StateFlow<List<Rent>> = _history
 
-    /** Carga usuario + historial con coste */
     fun load(ctx: Context, token: String) = viewModelScope.launch {
         _loading.value = true
         try {

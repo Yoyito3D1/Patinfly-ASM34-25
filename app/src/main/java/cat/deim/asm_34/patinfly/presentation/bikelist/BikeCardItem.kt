@@ -24,7 +24,7 @@ fun BikeCardItem(
     bike: Bike,
     modifier: Modifier = Modifier
 ) {
-    val context   = LocalContext.current                          // ← contexto Compose
+    val context   = LocalContext.current
     val cardColor = MaterialTheme.colorScheme.surface
     val labelColor = MaterialTheme.colorScheme.onSurfaceVariant
 

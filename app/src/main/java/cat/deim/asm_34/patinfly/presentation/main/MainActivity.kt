@@ -24,7 +24,6 @@ import cat.deim.asm_34.patinfly.ui.theme.PatinflyTheme
 
 class MainActivity : ComponentActivity() {
 
-    /* contador que forzará el refresco del composable al volver a RESUME */
     private var refreshTrigger by mutableIntStateOf(0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         getUserUseCase          = GetUserUseCase(userRepo, session),
                         getBikesUseCase         = GetBikesUseCase(bikeRepo),
                         getUserReservedUseCase  = GetUserReservedUsecase(userRepo),
-                        refreshTrigger          = refreshTrigger            // ← nuevo
+                        refreshTrigger          = refreshTrigger
                     )
                 }
             }
@@ -65,6 +64,6 @@ class MainActivity : ComponentActivity() {
     /** Cada vez que volvemos desde otra pantalla */
     override fun onResume() {
         super.onResume()
-        refreshTrigger++            // fuerza un nuevo LaunchedEffect
+        refreshTrigger++
     }
 }

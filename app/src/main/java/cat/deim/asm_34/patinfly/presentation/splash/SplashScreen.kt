@@ -37,7 +37,6 @@ fun SplashForm(function: () -> Unit) {
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Title & Subtitle
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = stringResource(id = R.string.splash_title),

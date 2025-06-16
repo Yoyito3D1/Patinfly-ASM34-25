@@ -39,11 +39,9 @@ fun BikeRentCard(
             .padding(16.dp)
     ) {
 
-        /* ---------- Encabezado ---------- */
         Text(bike.bikeType.name, style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(8.dp))
 
-        /* ---------- Tarjeta detalles ---------- */
         Card(
             shape = RoundedCornerShape(24.dp),
             elevation = CardDefaults.cardElevation(4.dp),
@@ -136,7 +134,6 @@ private fun DetailRow(icon: ImageVector, text: String) {
     }
 }
 
-/* ---------- Geoapify helper (compartido con BikeDetailForm) ---------- */
 
 private fun geoapifyStaticMapUrl(
     lat: Double,

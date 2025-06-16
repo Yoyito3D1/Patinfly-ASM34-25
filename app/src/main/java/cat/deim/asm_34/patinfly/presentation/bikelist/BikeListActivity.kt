@@ -10,7 +10,6 @@ class BikeListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Creamos el viewModel y le pedimos que cargue las bicis
         val viewModel = ViewModelProvider(this)[BikeViewModel::class.java]
         viewModel.fetchBikes(applicationContext)
 

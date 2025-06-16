@@ -29,7 +29,6 @@ class ToggleRentUseCase(
         Log.d(TAG, "execute(): user=$userId | bike=$uuid | rented=$currentlyRented")
 
         return if (currentlyRented) {
-            /* ---------- STOP RENT ---------- */
             Log.d(TAG, "→ STOP RENT FLOW")
 
             Log.d(TAG, "1. stopRent()…")
@@ -45,11 +44,10 @@ class ToggleRentUseCase(
             Log.d(TAG, "← Rental stopped")
             bike
         } else {
-            /* ---------- START RENT ---------- */
             Log.d(TAG, "→ START RENT FLOW")
 
             Log.d(TAG, "1. ensure bike is reserved")
-            bikeRepo.reserve(uuid, token)   // idempotente: si ya estaba OK
+            bikeRepo.reserve(uuid, token)
 
             Log.d(TAG, "2. startRent()…")
             val bike = bikeRepo.startRent(uuid, token)

@@ -50,7 +50,6 @@ fun BikeDetailForm(
         return
     }
 
-    /* decide acción del botón */
     val (label, color, enabled, action) = when {
         bike.reservedBy == userId -> Quad("Release", 0xFFD6D6D6, true,  ToggleAction.RELEASE)
         bike.reservedBy == null   -> Quad("Reserve now", 0xFFE0F2BE, true,  ToggleAction.RESERVE)
@@ -62,7 +61,6 @@ fun BikeDetailForm(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        /* Top bar */
         SmallTopAppBar(
             title = { Text("Patinfly") },
             navigationIcon = {
@@ -72,7 +70,6 @@ fun BikeDetailForm(
             }
         )
 
-        /* Card de detalles */
         Card(
             Modifier.fillMaxWidth().padding(16.dp),
             shape = RoundedCornerShape(24.dp),
@@ -112,7 +109,6 @@ fun BikeDetailForm(
             }
         }
 
-        /* Botón acción */
         Button(
             onClick = { if (enabled) onToggleAction(action) },
             enabled = enabled,
@@ -122,7 +118,6 @@ fun BikeDetailForm(
                 .padding(horizontal = 32.dp, vertical = 8.dp)
         ) { Text(label, fontWeight = FontWeight.Bold) }
 
-        /* ---------- Mapa estático Geoapify ---------- */
         StaticGeoapifyMap(
             lat = bike.latitude,
             lon = bike.longitude,
@@ -143,7 +138,6 @@ private fun DetailRow(icon: ImageVector, text: String) {
 private fun batteryStatus(level: Int) =
     when { level >= 75 -> "High battery"; level >= 40 -> "Medium battery"; else -> "Low battery" }
 
-/* ---------------- Mapa Geoapify helpers ---------------- */
 
 private fun geoapifyStaticMapUrl(
     lat: Double,
