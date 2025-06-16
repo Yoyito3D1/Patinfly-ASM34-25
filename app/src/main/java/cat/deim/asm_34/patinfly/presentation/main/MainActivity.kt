@@ -7,6 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import cat.deim.asm_34.patinfly.data.datasource.database.AppDatabase
 import cat.deim.asm_34.patinfly.data.datasource.local.UserDataSource
@@ -15,15 +19,13 @@ import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.UserAPIDataSour
 import cat.deim.asm_34.patinfly.data.repository.BikeRepository
 import cat.deim.asm_34.patinfly.data.repository.UserRepository
 import cat.deim.asm_34.patinfly.data.session.SessionManager
-import cat.deim.asm_34.patinfly.domain.usecase.GetBikesUseCase
-import cat.deim.asm_34.patinfly.domain.usecase.GetUserRentalUseCase
-import cat.deim.asm_34.patinfly.domain.usecase.GetUserReservedUsecase
-import cat.deim.asm_34.patinfly.domain.usecase.GetUserUseCase
+import cat.deim.asm_34.patinfly.domain.usecase.*
 import cat.deim.asm_34.patinfly.ui.theme.PatinflyTheme
 
 class MainActivity : ComponentActivity() {
 
-
+    /* contador que forzará el refresco del composable al volver a RESUME */
+    private var refreshTrigger by mutableIntStateOf(0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,10 @@ class MainActivity : ComponentActivity() {
             userDao             = AppDatabase.get(applicationContext).userDao(),
             sessionManager      = session
         )
-        val bikeRepo = BikeRepository(BikeAPIDataSource.getInstance(), AppDatabase.get(applicationContext).bikeDao())
+        val bikeRepo = BikeRepository(
+            BikeAPIDataSource.getInstance(),
+            AppDatabase.get(applicationContext).bikeDao()
+        )
 
         setContent {
             PatinflyTheme {
@@ -47,15 +52,19 @@ class MainActivity : ComponentActivity() {
                     color    = MaterialTheme.colorScheme.background
                 ) {
                     MainScreenContent(
-                        getUserUseCase  = GetUserUseCase(userRepo, session),
-                        getBikesUseCase = GetBikesUseCase(bikeRepo),
-                        getUserReservedUseCase = GetUserReservedUsecase(userRepo)
+                        getUserUseCase          = GetUserUseCase(userRepo, session),
+                        getBikesUseCase         = GetBikesUseCase(bikeRepo),
+                        getUserReservedUseCase  = GetUserReservedUsecase(userRepo),
+                        refreshTrigger          = refreshTrigger            // ← nuevo
                     )
                 }
             }
         }
     }
 
-
-
+    /** Cada vez que volvemos desde otra pantalla */
+    override fun onResume() {
+        super.onResume()
+        refreshTrigger++            // fuerza un nuevo LaunchedEffect
+    }
 }

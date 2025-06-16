@@ -48,14 +48,12 @@ fun MainForm(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(48.dp)
         ) {
-            /* ---------- Header ---------- */
             Text(
                 "Patinfly",
                 style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Black),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
-            /* ---------- Profile Card ---------- */
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -83,7 +81,6 @@ fun MainForm(
                 }
             }
 
-            /* ---------- Around you ---------- */
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,

@@ -16,44 +16,39 @@ import cat.deim.asm_34.patinfly.domain.usecase.GetUserUseCase
 import cat.deim.asm_34.patinfly.presentation.login.LoginActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
 @Composable
 fun MainScreenContent(
-    getUserUseCase: GetUserUseCase,
-    getBikesUseCase: GetBikesUseCase,
-    getUserReservedUseCase: GetUserReservedUsecase
+    getUserUseCase:        GetUserUseCase,
+    getBikesUseCase:       GetBikesUseCase,
+    getUserReservedUseCase:GetUserReservedUsecase,
+    refreshTrigger:        Int
 ) {
-    val context  = LocalContext.current
-    val session  = SessionManager(context)
-    val token    = session.getToken()
+    val context = LocalContext.current
+    val session = SessionManager(context)
+    val token   = session.getToken()
 
-    var loading     by remember { mutableStateOf(true) }
-    var user        by remember { mutableStateOf<User?>(null) }
-    var bikes       by remember { mutableStateOf<List<Bike>>(emptyList()) }
-    var reservedId  by remember { mutableStateOf<String?>(null) }
+    var loading    by remember { mutableStateOf(true) }
+    var user       by remember { mutableStateOf<User?>(null) }
+    var bikes      by remember { mutableStateOf<List<Bike>>(emptyList()) }
+    var reservedId by remember { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(token) {
+
+    LaunchedEffect(token, refreshTrigger) {
         if (token.isBlank() || session.isTokenExpired()) {
             context.startActivity(Intent(context, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             })
             return@LaunchedEffect
         }
 
-        user = runCatching {
-            withContext(Dispatchers.IO) { getUserUseCase.execute(token) }
-        }.getOrNull()
+        user = withContext(Dispatchers.IO) { getUserUseCase.execute(token) }
 
         user?.uuid?.let { uuid ->
-            reservedId = runCatching {
-                withContext(Dispatchers.IO) { getUserReservedUseCase.execute(uuid) }
-            }.getOrNull()
+            reservedId = withContext(Dispatchers.IO) { getUserReservedUseCase.execute(uuid) }
         }
 
-        bikes = runCatching {
-            withContext(Dispatchers.IO) { getBikesUseCase.execute(token) }
-        }.getOrDefault(emptyList())
-
+        bikes = withContext(Dispatchers.IO) { getBikesUseCase.execute(token) }
         loading = false
     }
 
@@ -61,17 +56,14 @@ fun MainScreenContent(
         loading -> Box(Modifier.fillMaxSize(), Alignment.Center) {
             CircularProgressIndicator()
         }
-
         user != null -> MainForm(
             user         = user!!,
             bikes        = bikes,
             loadingBikes = false,
             reservedId   = reservedId
         )
-
         else -> context.startActivity(Intent(context, LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })
     }
 }
