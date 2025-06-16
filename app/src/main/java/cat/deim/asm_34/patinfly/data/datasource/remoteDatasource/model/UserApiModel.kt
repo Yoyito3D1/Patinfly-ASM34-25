@@ -31,7 +31,7 @@ data class UserApiModel(
             creationDate = "",
             lastConnection = "",
             deviceId = "",
-            isRenting = false,
+            rentalUUID = null,
             scooterRented = null,
             numberOfRents = 0
         )

@@ -81,6 +81,13 @@ class BikeRepository(
         return status
     }
 
+    override suspend fun bikeStatus(uuid: String, token: String): Bike {
+        Log.d("BikeRepository", "bikeStatus($uuid) – API only")
+        val apiBike = bikeAPIDataSource.getById(uuid, token)
+            ?: throw IllegalStateException("Bike not found")
+        return apiBike.toDomain()
+    }
+
     override suspend fun reserve(uuid: String, token: String): Bike {
         Log.d("BikeRepository", "reserve($uuid)")
         val apiBike = bikeAPIDataSource.reserve(uuid, token)

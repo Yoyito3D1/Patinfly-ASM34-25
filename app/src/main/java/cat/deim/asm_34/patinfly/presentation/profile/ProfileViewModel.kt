@@ -9,6 +9,7 @@ import cat.deim.asm_34.patinfly.data.datasource.local.UserDataSource
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.UserAPIDataSource
 import cat.deim.asm_34.patinfly.data.repository.SystemPricingPlanRepository
 import cat.deim.asm_34.patinfly.data.repository.UserRepository
+import cat.deim.asm_34.patinfly.data.session.SessionManager
 import cat.deim.asm_34.patinfly.domain.models.Rent
 import cat.deim.asm_34.patinfly.domain.models.User
 import cat.deim.asm_34.patinfly.domain.usecase.GetRentHistoryWithBikesUseCase
@@ -35,20 +36,21 @@ class ProfileViewModel : ViewModel() {
         _loading.value = true
         try {
             val (u, h) = withContext(Dispatchers.IO) {
-
+                val sessionManager = SessionManager(ctx)
                 val userRepo   = UserRepository(
                     UserDataSource.getInstance(ctx),
                     UserAPIDataSource.getInstance(),
                     AppDatabase.get(ctx).userDao(),
-                    null
+                    sessionManager = sessionManager
                 )
                 val pricingRepo = SystemPricingPlanRepository(
                     SystemPricingPlanDataSource.getInstance(ctx),
                     AppDatabase.get(ctx).systemPricingPlanDao()
                 )
 
+
                 val rents = GetRentHistoryWithBikesUseCase(userRepo, pricingRepo).execute(token)
-                val user  = GetUserUseCase(userRepo).execute(token)
+                val user  = GetUserUseCase(userRepo, sessionManager).execute(token)
 
                 user to rents
             }

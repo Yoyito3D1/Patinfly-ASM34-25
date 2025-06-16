@@ -10,7 +10,7 @@ data class User(
     val creationDate: String,
     val lastConnection: String,
     val deviceId: String,
-    val isRenting: Boolean,
+    val rentalUUID: String?,
     val scooterRented: UUID?,
     val numberOfRents: Int
 )

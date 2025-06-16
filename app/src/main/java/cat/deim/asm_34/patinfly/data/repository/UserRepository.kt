@@ -112,7 +112,8 @@ class UserRepository(
         }
     }
 
-
+    override suspend fun getRentalUuid(userUuid: String): String? =
+        userDao.getRentalUuid(userUuid)
 
 
 }

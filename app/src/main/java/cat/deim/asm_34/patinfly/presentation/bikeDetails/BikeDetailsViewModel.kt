@@ -12,39 +12,39 @@ import cat.deim.asm_34.patinfly.domain.usecase.ToggleReserveUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 class BikeDetailViewModel : ViewModel() {
 
-    companion object { private const val TAG = "BikeDetailVM" }
-
-    private val _bike    = MutableLiveData<Bike?>()
-    val   bike : LiveData<Bike?> = _bike
+    private val _bike = MutableLiveData<Bike?>()
+    val bike: LiveData<Bike?> = _bike
 
     private val _loading = MutableLiveData(false)
-    val   loading: LiveData<Boolean> = _loading
+    val loading: LiveData<Boolean> = _loading
 
     fun fetchBike(ctx: Context, uuid: String) = viewModelScope.launch {
         val token = SessionManager(ctx).getToken()
         _loading.value = true
         _bike.value = withContext(Dispatchers.IO) {
-            BikeRepository(
+            val repo = BikeRepository(
                 BikeAPIDataSource.getInstance(),
                 AppDatabase.get(ctx).bikeDao()
-            ).let { GetBikeDetailUseCase(it).execute(uuid, token) }
+            )
+            GetBikeDetailUseCase(repo).execute(uuid, token)
         }
         _loading.value = false
     }
 
-    fun toggleReserve(ctx: Context, uuid: String) = viewModelScope.launch {
-        val token   = SessionManager(ctx).getToken()
-        val session = SessionManager(ctx)
-        val repo    = BikeRepository(
+    fun toggleReserve(ctx: Context, uuid: String, action: ToggleAction) = viewModelScope.launch {
+        if (action == ToggleAction.NONE) return@launch
+        val token = SessionManager(ctx).getToken()
+        val repo  = BikeRepository(
             BikeAPIDataSource.getInstance(),
             AppDatabase.get(ctx).bikeDao()
         )
-        val uc = ToggleReserveUseCase(repo, session)
+        val uc = ToggleReserveUseCase(repo)
 
         _loading.value = true
-        _bike.value    = withContext(Dispatchers.IO) { uc.execute(uuid, token) }
+        _bike.value = withContext(Dispatchers.IO) { uc.execute(uuid, token, action) }
         _loading.value = false
     }
 }

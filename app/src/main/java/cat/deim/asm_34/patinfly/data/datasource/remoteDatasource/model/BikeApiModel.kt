@@ -20,6 +20,9 @@ data class BikeApiModel(
     @SerializedName("is_reserved")
     val isReserved: Boolean,
 
+    @SerializedName("user_reserving")
+    val userReserving: String?,
+
     @SerializedName("is_rented")
     val isRented: Boolean,
 
@@ -44,31 +47,32 @@ data class BikeApiModel(
     @SerializedName("rental_uris")
     val rentalUris: RentalUris
 ) {
-    fun toDomain(): Bike {
-        return Bike(
-            uuid               = uuid,
-            name               = name,
-            bikeType           = BikeType(
+
+    fun toDomain(): Bike =
+        Bike(
+            uuid                = uuid,
+            name                = name,
+            bikeType            = BikeType(
                 uuid = vehicleTypeId,
                 name = vehicleTypeId,
                 type = "Electric"
             ),
-            creationDate       = Date(),
+            creationDate        = Date(),
             lastMaintenanceDate = Date(),
-            inMaintenance      = false,
-            isActive           = !isDisabled,
-            batteryLevel       = 100,
-            meters             = 0,
+            inMaintenance       = false,
+            isActive            = !isDisabled,
+            batteryLevel        = 100,
+            meters              = 0,
 
-            isReserved         = isReserved,
-            isRented           = isRented,
-            isDisabled         = isDisabled,
-            latitude           = lat,
-            longitude          = lon,
-            rentalUrlAndroid   = rentalUris.android,
-            rentalUrlIOS       = rentalUris.ios
+            isReserved          = isReserved,
+            isRented            = isRented,
+            isDisabled          = isDisabled,
+            latitude            = lat,
+            longitude           = lon,
+            rentalUrlAndroid    = rentalUris.android,
+            rentalUrlIOS        = rentalUris.ios,
+            reservedBy          = userReserving
         )
-    }
 }
 
 data class RentalUris(

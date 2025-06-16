@@ -16,6 +16,9 @@ interface IBikeRepository {
 
     suspend fun status(): ServerStatus
 
+
+    suspend fun bikeStatus(uuid: String, token: String): Bike
+
     suspend fun reserve(uuid: String, token: String): Bike
     suspend fun release(uuid: String, token: String): Bike
     suspend fun startRent(uuid: String, token: String): Bike

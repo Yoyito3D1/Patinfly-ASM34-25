@@ -21,6 +21,13 @@ class SessionManager(context: Context) {
 
     fun getExpires(): String = prefs.getString("expires", "") ?: ""
 
+    fun saveUserId(uuid: String) {
+        prefs.edit().putString("user_id", uuid).apply()
+    }
+
+    fun getUserId(): String? =
+        prefs.getString("user_id", null)
+
 
     fun isTokenExpired(): Boolean {
         val expiresStr = getExpires()

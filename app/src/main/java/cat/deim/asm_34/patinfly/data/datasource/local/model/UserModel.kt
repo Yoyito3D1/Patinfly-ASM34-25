@@ -44,9 +44,9 @@ data class UserModel(
             creationDate = creation_date,
             lastConnection = last_connection,
             deviceId = device_id,
-            isRenting = isRenting,
             scooterRented = scooterRented?.let { UUID.fromString(it) },
-            numberOfRents = numberOfRents
+            numberOfRents = numberOfRents,
+            rentalUUID = null,
         )
     }
 
@@ -60,7 +60,7 @@ data class UserModel(
                 creation_date = user.creationDate,
                 last_connection = user.lastConnection,
                 device_id = user.deviceId,
-                isRenting = user.isRenting,
+                isRenting = false,
                 scooterRented = user.scooterRented?.toString(),
                 numberOfRents = user.numberOfRents
             )

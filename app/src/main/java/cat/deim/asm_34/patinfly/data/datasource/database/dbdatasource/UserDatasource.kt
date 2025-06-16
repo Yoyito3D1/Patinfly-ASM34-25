@@ -24,6 +24,10 @@ interface UserDatasource {
 
     @Query("SELECT * FROM user")
     suspend fun getAll(): List<UserDTO>
+
+
+    @Query("SELECT rentalUUID FROM user WHERE uuid = :uuid LIMIT 1")
+    suspend fun getRentalUuid(uuid: String): String?
 }
 
 

@@ -13,27 +13,24 @@ class BikeDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val uuid = intent.getStringExtra("BIKE_UUID")
-        if (uuid.isNullOrEmpty()) { finish(); return }
+        val uuid = intent.getStringExtra("BIKE_UUID") ?: run { finish(); return }
 
-        val viewModel = ViewModelProvider(this)[BikeDetailViewModel::class.java]
-        viewModel.fetchBike(applicationContext, uuid)
+        val vm = ViewModelProvider(this)[BikeDetailViewModel::class.java]
+        vm.fetchBike(applicationContext, uuid)
 
         setContent {
             PatinflyTheme {
-                val bike    by viewModel.bike.observeAsState()
-                val loading by viewModel.loading.observeAsState(true)
+                val bike    by vm.bike.observeAsState()
+                val loading by vm.loading.observeAsState(true)
 
                 BikeDetailForm(
                     bike    = bike,
                     loading = loading,
-                    onToggleReserve = {
-                        viewModel.toggleReserve(applicationContext, uuid)
+                    onToggleAction = { action ->
+                        vm.toggleReserve(applicationContext, uuid, action)
                     }
                 )
             }
         }
-
     }
 }
-

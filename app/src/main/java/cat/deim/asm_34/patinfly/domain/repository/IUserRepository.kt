@@ -18,5 +18,5 @@ interface IUserRepository {
 
     suspend fun getRentHistory(token: String): List<Rent>
 
-
+    suspend fun getRentalUuid(userUuid: String): String?
 }

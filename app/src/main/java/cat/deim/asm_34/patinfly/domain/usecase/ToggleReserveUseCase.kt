@@ -2,27 +2,14 @@ package cat.deim.asm_34.patinfly.domain.usecase
 
 import cat.deim.asm_34.patinfly.domain.models.Bike
 import cat.deim.asm_34.patinfly.domain.repository.IBikeRepository
+import cat.deim.asm_34.patinfly.presentation.bikeDetails.ToggleAction
 
+class ToggleReserveUseCase(private val repo: IBikeRepository) {
 
-class ToggleReserveUseCase(
-    private val repo: IBikeRepository,
-) {
-    suspend fun execute(uuid: String, token: String): Bike {
-        val current = session.getReservedBike()
-
-        if (current != null && current != uuid) {
-            repo.release(current, token)
-            session.saveReservedBike(null)
+    suspend fun execute(uuid: String, token: String, action: ToggleAction): Bike =
+        when (action) {
+            ToggleAction.RESERVE -> repo.reserve(uuid, token)
+            ToggleAction.RELEASE -> repo.release(uuid, token)
+            ToggleAction.NONE    -> repo.bikeStatus(uuid, token)
         }
-
-        val updated = if (current == uuid)
-            repo.release(uuid, token)
-        else
-            repo.reserve(uuid, token)
-
-        session.saveReservedBike(
-            if (updated.isReserved) updated.uuid else null
-        )
-        return updated
-    }
 }

@@ -12,7 +12,7 @@ data class Bike(
     val isActive: Boolean,
     val batteryLevel: Int,
     val meters: Int,
-
+    val reservedBy: String?,
     val isReserved: Boolean,
     val isRented: Boolean,
     val isDisabled: Boolean,

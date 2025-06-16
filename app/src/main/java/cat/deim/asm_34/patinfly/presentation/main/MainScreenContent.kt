@@ -11,26 +11,25 @@ import cat.deim.asm_34.patinfly.data.session.SessionManager
 import cat.deim.asm_34.patinfly.domain.models.Bike
 import cat.deim.asm_34.patinfly.domain.models.User
 import cat.deim.asm_34.patinfly.domain.usecase.GetBikesUseCase
+import cat.deim.asm_34.patinfly.domain.usecase.GetUserRentalUseCase
 import cat.deim.asm_34.patinfly.domain.usecase.GetUserUseCase
 import cat.deim.asm_34.patinfly.presentation.login.LoginActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
 @Composable
 fun MainScreenContent(
     getUserUseCase: GetUserUseCase,
-    getBikesUseCase: GetBikesUseCase
+    getBikesUseCase: GetBikesUseCase,
+    getUserRentalUseCase: GetUserRentalUseCase
 ) {
     val context  = LocalContext.current
     val session  = SessionManager(context)
     val token    = session.getToken()
 
-    //TODO LLAMAR AL USECASE NUEVO QUE MIRE SI EXISTE BIKE EN RESERVED PARA USER X (LOGICA DE HABILITADO DESAVILITADO)
-    val reservedId: String? = SessionManager(context).getReservedBike()
-
-    var loading by remember { mutableStateOf(true) }
-    var user    by remember { mutableStateOf<User?>(null) }
-    var bikes   by remember { mutableStateOf<List<Bike>>(emptyList()) }
+    var loading     by remember { mutableStateOf(true) }
+    var user        by remember { mutableStateOf<User?>(null) }
+    var bikes       by remember { mutableStateOf<List<Bike>>(emptyList()) }
+    var reservedId  by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(token) {
         if (token.isBlank() || session.isTokenExpired()) {
@@ -44,6 +43,12 @@ fun MainScreenContent(
         user = runCatching {
             withContext(Dispatchers.IO) { getUserUseCase.execute(token) }
         }.getOrNull()
+
+        user?.uuid?.let { uuid ->
+            reservedId = runCatching {
+                withContext(Dispatchers.IO) { getUserRentalUseCase.execute(uuid) }
+            }.getOrNull()
+        }
 
         bikes = runCatching {
             withContext(Dispatchers.IO) { getBikesUseCase.execute(token) }
@@ -70,4 +75,3 @@ fun MainScreenContent(
         })
     }
 }
-

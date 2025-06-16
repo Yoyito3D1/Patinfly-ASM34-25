@@ -182,7 +182,7 @@ private fun BikeAroundItem(
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(horizontal = 12.dp)
             )
-            /*  nuevo dato extra: % batería  */
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 12.dp, bottom = 12.dp, top = 4.dp)
