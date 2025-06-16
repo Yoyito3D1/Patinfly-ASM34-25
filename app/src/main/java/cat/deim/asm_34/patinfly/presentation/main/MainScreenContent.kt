@@ -11,7 +11,7 @@ import cat.deim.asm_34.patinfly.data.session.SessionManager
 import cat.deim.asm_34.patinfly.domain.models.Bike
 import cat.deim.asm_34.patinfly.domain.models.User
 import cat.deim.asm_34.patinfly.domain.usecase.GetBikesUseCase
-import cat.deim.asm_34.patinfly.domain.usecase.GetUserRentalUseCase
+import cat.deim.asm_34.patinfly.domain.usecase.GetUserReservedUsecase
 import cat.deim.asm_34.patinfly.domain.usecase.GetUserUseCase
 import cat.deim.asm_34.patinfly.presentation.login.LoginActivity
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 fun MainScreenContent(
     getUserUseCase: GetUserUseCase,
     getBikesUseCase: GetBikesUseCase,
-    getUserRentalUseCase: GetUserRentalUseCase
+    getUserReservedUseCase: GetUserReservedUsecase
 ) {
     val context  = LocalContext.current
     val session  = SessionManager(context)
@@ -46,7 +46,7 @@ fun MainScreenContent(
 
         user?.uuid?.let { uuid ->
             reservedId = runCatching {
-                withContext(Dispatchers.IO) { getUserRentalUseCase.execute(uuid) }
+                withContext(Dispatchers.IO) { getUserReservedUseCase.execute(uuid) }
             }.getOrNull()
         }
 

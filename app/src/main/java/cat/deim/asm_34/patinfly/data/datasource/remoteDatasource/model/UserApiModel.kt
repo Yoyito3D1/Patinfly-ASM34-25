@@ -33,7 +33,8 @@ data class UserApiModel(
             deviceId = "",
             rentalUUID = null,
             scooterRented = null,
-            numberOfRents = 0
+            numberOfRents = 0,
+            reservedUUID = null,
         )
     }
 }

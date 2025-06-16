@@ -29,7 +29,7 @@ import coil.request.ImageRequest
 import java.text.DateFormat
 
 enum class ToggleAction { RESERVE, RELEASE, NONE }
-private data class Quadruple<A,B,C,D>(val first: A,val second: B,val third: C,val fourth: D)
+private data class Quad<A,B,C,D>(val first: A,val second: B,val third: C,val fourth: D)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,9 +52,9 @@ fun BikeDetailForm(
 
     /* decide acción del botón */
     val (label, color, enabled, action) = when {
-        bike.reservedBy == userId -> Quadruple("Release", 0xFFD6D6D6, true,  ToggleAction.RELEASE)
-        bike.reservedBy == null   -> Quadruple("Reserve now", 0xFFE0F2BE, true,  ToggleAction.RESERVE)
-        else                      -> Quadruple("Reserved", 0xFFD6D6D6, false, ToggleAction.NONE)
+        bike.reservedBy == userId -> Quad("Release", 0xFFD6D6D6, true,  ToggleAction.RELEASE)
+        bike.reservedBy == null   -> Quad("Reserve now", 0xFFE0F2BE, true,  ToggleAction.RESERVE)
+        else                      -> Quad("Reserved", 0xFFD6D6D6, false, ToggleAction.NONE)
     }
 
     Column(
@@ -62,6 +62,7 @@ fun BikeDetailForm(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
+        /* Top bar */
         SmallTopAppBar(
             title = { Text("Patinfly") },
             navigationIcon = {
@@ -71,7 +72,7 @@ fun BikeDetailForm(
             }
         )
 
-        /* tarjeta detalles */
+        /* Card de detalles */
         Card(
             Modifier.fillMaxWidth().padding(16.dp),
             shape = RoundedCornerShape(24.dp),
@@ -111,7 +112,7 @@ fun BikeDetailForm(
             }
         }
 
-        /* botón */
+        /* Botón acción */
         Button(
             onClick = { if (enabled) onToggleAction(action) },
             enabled = enabled,
@@ -121,7 +122,7 @@ fun BikeDetailForm(
                 .padding(horizontal = 32.dp, vertical = 8.dp)
         ) { Text(label, fontWeight = FontWeight.Bold) }
 
-        /* mapa */
+        /* ---------- Mapa estático Geoapify ---------- */
         StaticGeoapifyMap(
             lat = bike.latitude,
             lon = bike.longitude,
@@ -132,10 +133,66 @@ fun BikeDetailForm(
     }
 }
 
-@Composable private fun DetailRow(icon: ImageVector, text: String) {
+@Composable
+private fun DetailRow(icon: ImageVector, text: String) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 4.dp)) {
         Icon(icon, null); Spacer(Modifier.width(12.dp)); Text(text)
     }
 }
+
 private fun batteryStatus(level: Int) =
     when { level >= 75 -> "High battery"; level >= 40 -> "Medium battery"; else -> "Low battery" }
+
+/* ---------------- Mapa Geoapify helpers ---------------- */
+
+private fun geoapifyStaticMapUrl(
+    lat: Double,
+    lon: Double,
+    zoom: Int = 15,
+    w:   Int = 600,
+    h:   Int = 400,
+    apiKey: String
+): String = buildString {
+    append("https://maps.geoapify.com/v1/staticmap")
+    append("?style=osm-bright")
+    append("&center=lonlat:$lon,$lat")
+    append("&zoom=$zoom")
+    append("&marker=lonlat:$lon,$lat;type:material;color:%23ff0000")
+    append("&width=$w&height=$h")
+    append("&apiKey=$apiKey")
+}
+
+@Composable
+private fun StaticGeoapifyMap(
+    lat: Double,
+    lon: Double,
+    apiKey: String,
+    zoom: Int = 15,
+    modifier: Modifier = Modifier
+) {
+    val ctx = LocalContext.current
+    val url = remember(lat, lon, apiKey, zoom) {
+        geoapifyStaticMapUrl(lat, lon, zoom, apiKey = apiKey)
+    }
+
+    SubcomposeAsyncImage(
+        model = ImageRequest.Builder(ctx)
+            .data(url)
+            .crossfade(true)
+            .build(),
+        contentDescription = "Geoapify static map",
+        modifier = modifier.clip(RoundedCornerShape(16.dp)),
+        contentScale = ContentScale.Crop,
+        loading = {
+            Box(Modifier.fillMaxSize(), Alignment.Center) { CircularProgressIndicator() }
+        },
+        error = {
+            Image(
+                painterResource(R.drawable.map_placeholder),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+        }
+    )
+}

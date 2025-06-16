@@ -29,7 +29,8 @@ data class BikeDTO(
     val latitude: Double,
     val longitude: Double,
     val rentalUrlAndroid: String,
-    val rentalUrlIOS: String
+    val rentalUrlIOS: String,
+    val reservedBy :String?
 ) {
     companion object {
         fun fromDomain(bike: Bike) = BikeDTO(
@@ -50,7 +51,8 @@ data class BikeDTO(
             latitude = bike.latitude,
             longitude = bike.longitude,
             rentalUrlAndroid = bike.rentalUrlAndroid,
-            rentalUrlIOS = bike.rentalUrlIOS
+            rentalUrlIOS = bike.rentalUrlIOS,
+            reservedBy = bike.reservedBy
         )
     }
 }
@@ -75,5 +77,6 @@ fun BikeDTO.toDomain() = Bike(
     latitude = latitude,
     longitude = longitude,
     rentalUrlAndroid = rentalUrlAndroid,
-    rentalUrlIOS = rentalUrlIOS
+    rentalUrlIOS = rentalUrlIOS,
+    reservedBy = reservedBy
 )

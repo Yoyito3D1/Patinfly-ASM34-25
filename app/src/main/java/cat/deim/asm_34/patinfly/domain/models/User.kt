@@ -11,6 +11,7 @@ data class User(
     val lastConnection: String,
     val deviceId: String,
     val rentalUUID: String?,
+    val reservedUUID: String?,
     val scooterRented: UUID?,
     val numberOfRents: Int
 )

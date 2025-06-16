@@ -41,12 +41,12 @@ data class BikeModel(
             meters = meters,
             isReserved = false,
             isRented = false,
-            isDisabled   = false,
-            latitude         = 0.0,
-            longitude        = 0.0,
+            isDisabled = false,
+            latitude = 0.0,
+            longitude = 0.0,
             rentalUrlAndroid = "",
-            rentalUrlIOS     = ""
-
+            rentalUrlIOS = "",
+            reservedBy = null,
         )
     }
 

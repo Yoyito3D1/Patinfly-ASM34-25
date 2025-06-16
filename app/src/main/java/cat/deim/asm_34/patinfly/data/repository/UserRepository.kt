@@ -44,9 +44,13 @@ class UserRepository(
     }
 
     override suspend fun setUser(user: User): Boolean {
-        userDao.save(UserDTO.fromDomain(user))
-        return true
+        val exists = userDao.getUserByUUID(user.uuid) != null      // consulta rápida
+        if (!exists) {
+            userDao.save(UserDTO.fromDomain(user))             // inserta solo una vez
+        }
+        return true                                            // ya estaba: no se toca
     }
+
 
     override suspend fun updateUser(user: User): User? {
         userDao.getUserByUUID(user.uuid)?.let {
@@ -115,5 +119,14 @@ class UserRepository(
     override suspend fun getRentalUuid(userUuid: String): String? =
         userDao.getRentalUuid(userUuid)
 
+    override suspend fun getReservedUuid(userUuid: String): String? =
+        userDao.getReservedUuid(userUuid)
+
+    override suspend fun updateReserved(userId: String, bikeUuid: String?) {
+       userDao.updateReserved(userId, bikeUuid)
+    }
+    override suspend fun updateRented(userId: String, bikeUuid: String?) {
+        userDao.updateRented(userId, bikeUuid)
+    }
 
 }

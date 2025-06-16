@@ -47,6 +47,7 @@ data class UserModel(
             scooterRented = scooterRented?.let { UUID.fromString(it) },
             numberOfRents = numberOfRents,
             rentalUUID = null,
+            reservedUUID = null,
         )
     }
 

@@ -17,6 +17,7 @@ import cat.deim.asm_34.patinfly.data.repository.UserRepository
 import cat.deim.asm_34.patinfly.data.session.SessionManager
 import cat.deim.asm_34.patinfly.domain.usecase.GetBikesUseCase
 import cat.deim.asm_34.patinfly.domain.usecase.GetUserRentalUseCase
+import cat.deim.asm_34.patinfly.domain.usecase.GetUserReservedUsecase
 import cat.deim.asm_34.patinfly.domain.usecase.GetUserUseCase
 import cat.deim.asm_34.patinfly.ui.theme.PatinflyTheme
 
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     MainScreenContent(
                         getUserUseCase  = GetUserUseCase(userRepo, session),
                         getBikesUseCase = GetBikesUseCase(bikeRepo),
-                        getUserRentalUseCase = GetUserRentalUseCase(userRepo)
+                        getUserReservedUseCase = GetUserReservedUsecase(userRepo)
                     )
                 }
             }

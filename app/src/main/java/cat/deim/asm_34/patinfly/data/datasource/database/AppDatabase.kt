@@ -19,7 +19,7 @@ import cat.deim.asm_34.patinfly.utils.Converters
         BikeDTO::class,
         SystemPricingPlanDTO::class
     ],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

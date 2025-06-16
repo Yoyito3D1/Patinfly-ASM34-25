@@ -19,4 +19,8 @@ interface IUserRepository {
     suspend fun getRentHistory(token: String): List<Rent>
 
     suspend fun getRentalUuid(userUuid: String): String?
+    suspend fun getReservedUuid(userUuid: String): String?
+
+    suspend fun updateReserved(userId: String, bikeUuid: String?)
+    suspend fun updateRented(userId: String, bikeUuid: String?)
 }

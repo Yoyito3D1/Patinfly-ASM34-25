@@ -15,6 +15,7 @@ data class UserDTO(
     val lastConnection: String,
     val deviceId: String,
     val rentalUUID: String?,
+    val reservedUUID: String?,
     val scooterRented: UUID?,
     val numberOfRents: Int
 ) {
@@ -30,7 +31,9 @@ data class UserDTO(
                 deviceId = user.deviceId,
                 rentalUUID = user.rentalUUID,
                 scooterRented = user.scooterRented,
-                numberOfRents = user.numberOfRents
+                numberOfRents = user.numberOfRents,
+                reservedUUID = user.reservedUUID
+
             )
         }
     }
@@ -47,6 +50,7 @@ fun UserDTO.toDomain(): User {
         deviceId = deviceId,
         rentalUUID = rentalUUID,
         scooterRented = scooterRented,
-        numberOfRents = numberOfRents
+        numberOfRents = numberOfRents,
+        reservedUUID = reservedUUID
     )
 }

@@ -11,4 +11,6 @@ interface IUserDataSource {
     fun getAll(): Collection<UserModel>
     fun getUserByUUID(uuid: UUID): UserModel?
     fun getUserByEmail(email: String): UserModel?
+
+
 }

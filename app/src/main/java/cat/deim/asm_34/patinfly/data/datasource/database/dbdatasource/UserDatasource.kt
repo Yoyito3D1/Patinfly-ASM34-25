@@ -28,6 +28,15 @@ interface UserDatasource {
 
     @Query("SELECT rentalUUID FROM user WHERE uuid = :uuid LIMIT 1")
     suspend fun getRentalUuid(uuid: String): String?
+
+    @Query("SELECT reservedUUID FROM user WHERE uuid = :uuid LIMIT 1")
+    suspend fun getReservedUuid(uuid: String): String?
+
+    @Query("UPDATE user SET reservedUUID = :bikeUuid WHERE uuid = :userId")
+    suspend fun updateReserved(userId: String, bikeUuid: String?)
+
+    @Query("UPDATE user SET rentalUUID = :bikeUuid WHERE uuid = :userId")
+    suspend fun updateRented(userId: String, bikeUuid: String?)
 }
 
 
