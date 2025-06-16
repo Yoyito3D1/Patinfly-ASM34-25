@@ -22,6 +22,9 @@ import cat.deim.asm_34.patinfly.domain.usecase.GetUserUseCase
 import cat.deim.asm_34.patinfly.ui.theme.PatinflyTheme
 
 class MainActivity : ComponentActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,4 +55,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+
 }

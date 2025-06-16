@@ -85,6 +85,9 @@ class BikeRepository(
         Log.d("BikeRepository", "bikeStatus($uuid) – API only")
         val apiBike = bikeAPIDataSource.getById(uuid, token)
             ?: throw IllegalStateException("Bike not found")
+
+
+        Log.d("LLega", "LLEGA AQUIIIIII??")
         return apiBike.toDomain()
     }
 

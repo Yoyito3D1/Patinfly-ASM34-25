@@ -8,6 +8,7 @@ import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.BikeAPIDataSour
 import cat.deim.asm_34.patinfly.data.datasource.remoteDatasource.UserAPIDataSource
 import cat.deim.asm_34.patinfly.data.repository.BikeRepository
 import cat.deim.asm_34.patinfly.data.repository.UserRepository
+import cat.deim.asm_34.patinfly.data.session.SessionManager
 import cat.deim.asm_34.patinfly.domain.models.Bike
 import cat.deim.asm_34.patinfly.domain.usecase.ToggleRentUseCase
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,7 @@ class BikeRentDetailViewModel : ViewModel() {
 
     fun toggleRent(ctx: Context, uuid: String, token: String) = viewModelScope.launch {
         val current = _bike.value ?: return@launch
+        val userId  = SessionManager(ctx).getUserId() ?: return@launch
 
         val bikeRepo = BikeRepository(
             BikeAPIDataSource.getInstance(),
@@ -50,7 +52,7 @@ class BikeRentDetailViewModel : ViewModel() {
         _loading.value = true
         _bike.value = withContext(Dispatchers.IO) {
             ToggleRentUseCase(bikeRepo, userRepo)
-                .execute(uuid, token, current.isRented)
+                .execute(userId, uuid, token, current.isRented)
         }
         _loading.value = false
     }

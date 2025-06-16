@@ -18,17 +18,31 @@ class ToggleReserveUseCase(
         action: ToggleAction
     ): Bike {
 
+        if (action == ToggleAction.RESERVE) {
+            val currentReserved = userRepo.getReservedUuid(userId)
+            if (currentReserved != null && currentReserved != uuid) {
+
+                val currentRented = userRepo.getRentalUuid(userId)
+                if (currentRented != null && currentRented == currentReserved) {
+                    bikeRepo.stopRent(currentReserved, token)
+                    userRepo.updateRented(userId, null)
+                }
+
+                bikeRepo.release(currentReserved, token)
+                userRepo.updateReserved(userId, null)
+            }
+        }
+
         val bike: Bike = when (action) {
             ToggleAction.RESERVE -> bikeRepo.reserve(uuid, token)
             ToggleAction.RELEASE -> bikeRepo.release(uuid, token)
             ToggleAction.NONE    -> bikeRepo.bikeStatus(uuid, token)
         }
 
-        // actualiza el campo reservedUUID según corresponda
         when (action) {
             ToggleAction.RESERVE -> userRepo.updateReserved(userId, uuid)
             ToggleAction.RELEASE -> userRepo.updateReserved(userId, null)
-            ToggleAction.NONE    -> {} /* nada */
+            ToggleAction.NONE    -> {  }
         }
 
         return bike

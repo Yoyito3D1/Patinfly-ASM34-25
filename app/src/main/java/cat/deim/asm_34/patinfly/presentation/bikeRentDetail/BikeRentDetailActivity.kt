@@ -12,6 +12,7 @@ import cat.deim.asm_34.patinfly.presentation.login.LoginActivity
 import cat.deim.asm_34.patinfly.ui.theme.PatinflyTheme
 
 class BikeRentDetailActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
