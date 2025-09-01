@@ -78,10 +78,4 @@ This practice (P2) focuses on **data persistence** and **query services** using 
 ## 🎯 Objective
 Implement persistent data storage and API integration for a mobile bike rental application, ensuring correct synchronization and reservation logic for users and bikes.
 
----
 
-## 📝 Notes
-- Groups of 2 students.  
-- Original work required.  
-- Repository must compile and import correctly in Android Studio.  
-- Include collaborator `TomasGiS` for tracking practice progress.  
